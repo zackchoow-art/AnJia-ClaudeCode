@@ -1,0 +1,74 @@
+#!/bin/bash
+# ============================================================================
+# Git pre-commit hook
+# 提交前的代码质量检查
+# ============================================================================
+
+set -e
+
+echo "🔍 Running pre-commit checks..."
+
+ERRORS=0
+
+# 1. 检查是否有.env文件被意外提交
+if git diff --cached --name-only | grep -qE '^\.env$'; then
+  echo "❌ ERROR: .env file should never be committed!"
+  ERRORS=$((ERRORS + 1))
+fi
+
+# 2. 检查是否包含明显的密钥或敏感信息
+SENSITIVE_PATTERNS="(SUPABASE_SERVICE_ROLE_KEY=|nvapi-[a-zA-Z0-9]{30,}|password\s*=\s*['\"]|api[_-]?key\s*=\s*['\"][a-zA-Z0-9]{20,}['\"])"
+if git diff --cached | grep -qiE "$SENSITIVE_PATTERNS"; then
+  echo "❌ ERROR: Potential secrets detected in commit!"
+  echo "   Please remove and use environment variables instead"
+  ERRORS=$((ERRORS + 1))
+fi
+
+# 3. 检查SQL文件基本语法
+SQL_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.sql$' || true)
+if [ -n "$SQL_FILES" ]; then
+  for file in $SQL_FILES; do
+    if [ -f "$file" ]; then
+      # 基本检查: 是否有未配对的括号
+      OPEN_PAREN=$(grep -o '(' "$file" | wc -l)
+      CLOSE_PAREN=$(grep -o ')' "$file" | wc -l)
+      if [ "$OPEN_PAREN" -ne "$CLOSE_PAREN" ]; then
+        echo "❌ ERROR: Unmatched parentheses in $file"
+        ERRORS=$((ERRORS + 1))
+      fi
+    fi
+  done
+fi
+
+# 4. 检查TypeScript语法 (如果deno可用)
+if command -v deno &> /dev/null; then
+  TS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.ts$' || true)
+  if [ -n "$TS_FILES" ]; then
+    for file in $TS_FILES; do
+      if [ -f "$file" ]; then
+        deno check "$file" 2>&1 | grep -i error && {
+          echo "❌ ERROR: TypeScript errors in $file"
+          ERRORS=$((ERRORS + 1))
+        } || true
+      fi
+    done
+  fi
+fi
+
+# 5. 检查commit message格式(在commit-msg hook中更适合,这里只做提醒)
+# Skipped: commit message check should be in commit-msg hook
+
+# 6. 检查工作日志目录权限
+if [ ! -w ".logs/detailed" ]; then
+  echo "⚠️  WARNING: .logs/detailed not writable, work log generation may fail"
+fi
+
+if [ "$ERRORS" -gt 0 ]; then
+  echo ""
+  echo "❌ Pre-commit check failed with $ERRORS errors"
+  echo "   Fix the issues and try again, or use --no-verify to skip (not recommended)"
+  exit 1
+fi
+
+echo "✅ All pre-commit checks passed"
+exit 0

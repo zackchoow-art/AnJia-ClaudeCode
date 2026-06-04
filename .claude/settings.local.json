@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/zack/workspace/**)",
+      "Read(//srv/hermes/**)",
+      "Bash(command -v git)",
+      "Bash(git --version)",
+      "Bash(command -v psql)",
+      "Bash(psql --version)",
+      "Bash(command -v npm)",
+      "Bash(command -v supabase)",
+      "Bash(supabase --version)",
+      "Bash(sudo apt-get install -y postgresql-client)",
+      "Bash(supabase --help)",
+      "Bash(supabase db *)",
+      "Bash(supabase link *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(k\\) for k in d.keys\\(\\)]\")",
+      "Bash(python3 *)",
+      "Bash(node -e \"const pg = require\\('pg'\\); console.log\\('pg available'\\);\")",
+      "Bash(npm init *)",
+      "Bash(npm install *)",
+      "Bash(node *)",
+      "Read(//home/zack/.config/supabase/**)",
+      "Read(//home/zack/.supabase/**)",
+      "Read(//home/zack/**)",
+      "Bash(env)",
+      "Bash(supabase functions *)",
+      "Bash(supabase login *)",
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(mkdir -p .git/hooks)",
+      "Bash(cp git_setup/hooks/post-commit .git/hooks/)",
+      "Bash(cp git_setup/hooks/pre-commit .git/hooks/)",
+      "Bash(chmod +x .git/hooks/post-commit .git/hooks/pre-commit)",
+      "Bash(chmod +x scripts/*.sh)",
+      "Bash(git add *)"
+    ]
+  }
+}

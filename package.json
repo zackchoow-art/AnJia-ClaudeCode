@@ -1,0 +1,15 @@
+{
+  "name": "aj-system",
+  "version": "1.0.0",
+  "description": "**项目**: Real Estate Development Platform (REDP) **版本**: v0.2.0 (完整可部署版本) **当前阶段**: Phase 0 - 支付审批Gate + 核心数据脊柱 **部署目标**: Supabase PostgreSQL + Edge Functions **AI框架**: Hermes Multi-Agent (8个Agent协同)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "pg": "^8.21.0"
+  }
+}

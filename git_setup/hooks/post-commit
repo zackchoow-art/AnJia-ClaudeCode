@@ -1,0 +1,85 @@
+#!/bin/bash
+# ============================================================================
+# Git post-commit hook
+# 自动生成工作日志并备份到Supabase
+# ============================================================================
+
+set -e
+
+# 加载环境变量
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+
+# 获取commit信息
+COMMIT_HASH=$(git log -1 --pretty=format:%H)
+COMMIT_MSG=$(git log -1 --pretty=format:%B)
+COMMIT_AUTHOR=$(git log -1 --pretty=format:%an)
+COMMIT_DATE=$(git log -1 --pretty=format:%aI)
+
+# 提取task_id (格式: feat(scope): msg [task-xxx])
+TASK_ID=$(echo "$COMMIT_MSG" | grep -oE 'task-[a-z0-9-]+' | head -1)
+
+if [ -z "$TASK_ID" ]; then
+  TASK_ID="task-auto-$(date +%s)"
+  echo "ℹ️  No task ID in commit message, generated: $TASK_ID"
+fi
+
+# 检查是否有需要记录的改动
+SQL_CHANGES=$(git diff HEAD~1 HEAD --name-only 2>/dev/null | grep -cE '\.sql$' || echo "0")
+TS_CHANGES=$(git diff HEAD~1 HEAD --name-only 2>/dev/null | grep -cE '\.(ts|tsx|js)$' || echo "0")
+MD_CHANGES=$(git diff HEAD~1 HEAD --name-only 2>/dev/null | grep -cE '\.md$' || echo "0")
+
+TOTAL_CHANGES=$((SQL_CHANGES + TS_CHANGES))
+
+if [ "$TOTAL_CHANGES" -eq 0 ] && [ "$MD_CHANGES" -eq 0 ]; then
+  echo "⏭️  No code or schema changes, skipping log generation"
+  exit 0
+fi
+
+echo "🔄 Generating work log: $TASK_ID"
+echo "   SQL changes: $SQL_CHANGES"
+echo "   TypeScript changes: $TS_CHANGES"
+echo "   Documentation changes: $MD_CHANGES"
+
+# 调用脚本生成日志
+if [ -x scripts/generate_changelog.sh ]; then
+  bash scripts/generate_changelog.sh \
+    --task-id "$TASK_ID" \
+    --commit-hash "$COMMIT_HASH" \
+    --commit-msg "$COMMIT_MSG" \
+    --author "$COMMIT_AUTHOR" \
+    --date "$COMMIT_DATE" \
+    --sql-changes "$SQL_CHANGES" \
+    --ts-changes "$TS_CHANGES"
+  
+  if [ $? -eq 0 ]; then
+    echo "✅ Work log generated: .logs/detailed/${TASK_ID}.json"
+    
+    # 备份到Supabase (用户选项C: Git + Supabase双备份)
+    if [ -n "$SUPABASE_URL" ] && [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+      LOG_CONTENT=$(cat ".logs/detailed/${TASK_ID}.json" 2>/dev/null || echo "{}")
+      curl -s -X POST "$SUPABASE_URL/rest/v1/work_logs" \
+        -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
+        -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+        -H "Content-Type: application/json" \
+        -H "Prefer: return=minimal" \
+        -d "{
+          \"task_id\": \"$TASK_ID\",
+          \"agent_id\": \"git-hook\",
+          \"log_type\": \"code_change\",
+          \"log_content\": $LOG_CONTENT,
+          \"git_commit_hash\": \"$COMMIT_HASH\"
+        }" > /dev/null && echo "✅ Backed up to Supabase work_logs"
+    fi
+    
+    echo ""
+    echo "📋 Please ensure Reviewer Agent reviews this before merging"
+  else
+    echo "❌ Work log generation failed"
+    exit 1
+  fi
+else
+  echo "⚠️  scripts/generate_changelog.sh not found or not executable"
+  echo "   Run: chmod +x scripts/generate_changelog.sh"
+fi
