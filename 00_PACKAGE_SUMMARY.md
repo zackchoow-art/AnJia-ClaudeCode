@@ -121,12 +121,12 @@ git commit -m "feat(phase0): initial REDP setup [task-init]"
 
 | Agent | Nvidia模型(官方名) |
 |-------|-------------------|
-| 项目总指挥 | `deepseek-ai/deepseek-v4-pro` |
-| 数据分析 | `qwen/qwen2.5-coder-32b-instruct` |
-| UI设计 | `z-ai/glm-5.1` |
-| 全栈(标准) | `mistralai/mistral-medium-3.5-128b` |
+| 项目总指挥 | `qwen/qwen3-coder-480b-a35b-instruct` |
+| 数据分析 | `nvidia/nemotron-3-nano-30b-a3b` |
+| UI设计 | `nvidia/nemotron-3-super-120b-a12b` |
+| 全栈(标准) | `minimaxai/minimax-m2.7` |
 | **全栈(资深)** ⭐ | **`qwen/qwen3-coder-480b-a35b-instruct`** |
-| 全栈(助手) | `qwen/qwen2.5-coder-32b-instruct` |
+| 全栈(助手) | `nvidia/nemotron-3-nano-30b-a3b` |
 | 审核 | `minimaxai/minimax-m2.7` |
 | 测试 | `nvidia/nemotron-3-super-120b-a12b` |
 

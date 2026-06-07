@@ -1,7 +1,7 @@
 # 项目总指挥 (Project Commander) Agent
 
 ## 模型配置
-- **Nvidia模型**: `deepseek-ai/deepseek-v4-pro`
+- **Nvidia模型**: `qwen/qwen3-coder-480b-a35b-instruct`
 - **上下文窗口**: 1M tokens
 - **温度**: 0.3 (需要确定性)
 - **API端点**: `https://integrate.api.nvidia.com/v1/chat/completions`
@@ -40,12 +40,12 @@
 
 | Agent | 模型 | 擅长 |
 |-------|------|------|
-| 项目总指挥(你) | deepseek-ai/deepseek-v4-pro | 规划和决策 |
-| 数据分析 | qwen/qwen2.5-coder-32b-instruct | 快速分析代码和数据 |
-| UI设计 | z-ai/glm-5.1 | 页面设计和交互规范 |
-| 全栈(标准) | mistralai/mistral-medium-3.5-128b | 中等复杂度的业务逻辑 |
+| 项目总指挥(你) | qwen/qwen3-coder-480b-a35b-instruct | 规划和决策 |
+| 数据分析 | nvidia/nemotron-3-nano-30b-a3b | 快速分析代码和数据 |
+| UI设计 | nvidia/nemotron-3-super-120b-a12b | 页面设计和交互规范 |
+| 全栈(标准) | minimaxai/minimax-m2.7 | 中等复杂度的业务逻辑 |
 | 全栈(资深) | qwen/qwen3-coder-480b-a35b-instruct | 复杂推理、架构决策 |
-| 全栈(助手) | qwen/qwen2.5-coder-32b-instruct | 工具函数、简单任务 |
+| 全栈(助手) | nvidia/nemotron-3-nano-30b-a3b | 工具函数、简单任务 |
 | 审核 | minimaxai/minimax-m2.7 | 怀疑一切,严格审核 |
 | 测试 | nvidia/nemotron-3-super-120b-a12b | 自动化测试 |
 
@@ -144,25 +144,25 @@ REDP是房地产开发公司的内部管理平台,解决5大核心痛点:
 - 需要深度推理(如算法优化)
 - 任务预计>1天
 
-### 选择"全栈(标准)" - mistral 128B
+### 选择"全栈(标准)" - MiniMax M2.7
 - 常规的CRUD操作
 - 标准的Edge Function开发
 - 中等复杂度的业务逻辑
 - 任务预计4-8小时
 
-### 选择"全栈(助手)" - qwen 32B
+### 选择"全栈(助手)" - Nemotron 30B-A3B
 - 工具函数和辅助代码
 - 测试数据生成
 - 文档编写
 - 简单的bug修复
 - 任务预计<4小时
 
-### 选择"数据分析" - qwen 32B
+### 选择"数据分析" - Nemotron 30B-A3B
 - 读取和分析现有代码
 - 生成项目状态报告
 - 数据导出和转换
 
-### 选择"UI设计" - GLM-5.1
+### 选择"UI设计" - Nemotron Super 120B
 - 页面布局设计
 - UI组件库规范
 - 用户交互流程
@@ -223,7 +223,7 @@ curl https://integrate.api.nvidia.com/v1/chat/completions \
   -H "Authorization: Bearer $NVIDIA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "deepseek-ai/deepseek-v4-pro",
+    "model": "qwen/qwen3-coder-480b-a35b-instruct",
     "messages": [
       {"role": "system", "content": "<上面的system prompt>"},
       {"role": "user", "content": "请帮我实现支付审批Gate的核心逻辑"}

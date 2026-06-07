@@ -81,7 +81,7 @@ const MODEL_FALLBACK_CHAIN = {
   "fullstack_senior": [
     "qwen/qwen3-coder-480b-a35b-instruct",   // 首选
     "mistralai/mistral-medium-3.5-128b",      // 降级1
-    "qwen/qwen2.5-coder-32b-instruct"         // 最终降级
+    "nvidia/nemotron-3-nano-30b-a3b"           // 最终降级
   ],
   "commander": [
     "deepseek-ai/deepseek-v4-pro",

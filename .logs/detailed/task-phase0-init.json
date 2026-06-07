@@ -1,0 +1,32 @@
+{
+  "task_metadata": {
+    "task_id": "task-phase0-init",
+    "agent_id": "git-hook-system",
+    "task_type": "code_change",
+    "status": "committed",
+    "timestamp": "2026-06-04T07:52:09Z"
+  },
+
+  "git_info": {
+    "commit_hash": "ccb336e1615525b244e136b7ab9c91995c6bce1d",
+    "commit_message": "feat(phase0): initialize REDP core schema [task-phase0-init]\n",
+    "author": "REDP System",
+    "commit_date": "2026-06-04T07:52:09+00:00"
+  },
+
+  "change_summary": {
+    "total_files_changed": 1,
+    "sql_files_changed": 0
+0,
+    "typescript_files_changed": 0
+0
+  },
+
+  "database_migrations": [],
+
+  "code_changes": [],
+
+  "approval_log": [],
+
+  "review_status": "pending"
+}

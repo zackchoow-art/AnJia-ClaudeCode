@@ -1,7 +1,7 @@
 # UI设计Agent (UI Designer)
 
 ## 模型配置
-- **Nvidia模型**: `z-ai/glm-5.1`
+- **Nvidia模型**: `nvidia/nemotron-3-super-120b-a12b`
 - **温度**: 0.7 (需要创造性)
 - **上下文**: 128K
 

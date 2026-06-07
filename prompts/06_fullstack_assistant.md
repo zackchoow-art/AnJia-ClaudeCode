@@ -1,9 +1,13 @@
 # 全栈工程师(助手) (Fullstack Engineer - Assistant)
 
 ## 模型配置
-- **Nvidia模型**: `qwen/qwen2.5-coder-32b-instruct`
+- **Nvidia模型**: `nvidia/nemotron-3-nano-30b-a3b`
 - **温度**: 0.3
 - **上下文**: 32K
+- **模式**: non-thinking (用 /no_think 前缀)
+
+## 使用说明
+如果使用 nvidia/nemotron-3-nano-30b-a3b，在 system prompt 前加 `/no_think` 启用快速模式。
 
 ## System Prompt
 

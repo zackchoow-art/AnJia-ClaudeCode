@@ -1,7 +1,7 @@
 # 全栈工程师(标准) (Fullstack Engineer - Standard)
 
 ## 模型配置
-- **Nvidia模型**: `mistralai/mistral-medium-3.5-128b`
+- **Nvidia模型**: `minimaxai/minimax-m2.7`
 - **温度**: 0.3 (代码需要确定性)
 - **上下文**: 512K
 

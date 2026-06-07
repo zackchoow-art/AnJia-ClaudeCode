@@ -1,0 +1,7 @@
+TASK_ID=task-test-002
+BRANCH=test/worktree-verify
+AGENT=system-test
+WORKTREE_PATH=worktrees/test-worktree-verify
+TABLES_LOCKED=projects
+CREATED_AT=2026-06-04T07:53:28Z
+STATUS=ACTIVE

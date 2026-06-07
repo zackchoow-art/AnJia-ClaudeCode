@@ -69,7 +69,7 @@ async function createTaskLock(request: TaskLock): Promise<{
       agent_id: request.agent_id,
       table_names: request.table_names,
       locked_until: request.locked_until,
-      lock_reason: request.lock_reason,
+      lock_reason: request.lock_reason || `Task ${request.task_id} locked by ${request.agent_id}`,
       lock_status: 'ACTIVE'
     })
     .select('id')

@@ -109,12 +109,12 @@ bash scripts/init_project.sh
 
 | Agent | 模型 | 用途 |
 |-------|------|------|
-| 项目总指挥 | `deepseek-ai/deepseek-v4-pro` | 需求分析、任务拆分、调度 |
-| 数据分析 | `qwen/qwen2.5-coder-32b-instruct` | 快速代码/数据分析 |
-| UI设计 | `z-ai/glm-5.1` | 界面设计、交互流程 |
-| 全栈(标准) | `mistralai/mistral-medium-3.5-128b` | 常规业务逻辑 |
+| 项目总指挥 | `qwen/qwen3-coder-480b-a35b-instruct` | 需求分析、任务拆分、调度 |
+| 数据分析 | `nvidia/nemotron-3-nano-30b-a3b` | 快速代码/数据分析 |
+| UI设计 | `nvidia/nemotron-3-super-120b-a12b` | 界面设计、交互流程 |
+| 全栈(标准) | `minimaxai/minimax-m2.7` | 常规业务逻辑 |
 | 全栈(资深) ⭐ | `qwen/qwen3-coder-480b-a35b-instruct` | 复杂推理、架构 |
-| 全栈(助手) | `qwen/qwen2.5-coder-32b-instruct` | 工具函数、文档 |
+| 全栈(助手) | `nvidia/nemotron-3-nano-30b-a3b` | 工具函数、文档 |
 | 审核 | `minimaxai/minimax-m2.7` | 严格审查所有改动 |
 | 测试 | `nvidia/nemotron-3-super-120b-a12b` | 自动化测试 |
 
