@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>REDP 销售助手</title>
+  <meta name="description" content="房地产销售移动端应用">
+  <meta name="theme-color" content="#1a5674">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Noto Naskh Arabic Font for Uyghur Text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #1a5674;
+      --secondary-color: #2d8ebf;
+      --accent-color: #e89b30;
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+      --bg-light: #f3f4f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Uyghur language support */
+    html[lang="ug"] body,
+    .uyghur-text {
+      font-family: 'Noto Naskh Arabic', serif;
+      direction: rtl;
+    }
+
+    /* Navigation */
+    .nav-item {
+      @apply flex flex-col items-center justify-center p-2 text-xs transition-colors;
+    }
+
+    .nav-item.active {
+      color: var(--primary-color);
+    }
+
+    .nav-item svg {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 4px;
+    }
+
+    /* Cards */
+    .card {
+      @apply bg-white rounded-lg shadow-sm p-4 mb-3;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      border: 3px solid rgba(0,0,0,0.1);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border-left-color: var(--primary-color);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Offline Indicator */
+    #offline-indicator {
+      display: none;
+      background-color: var(--accent-color);
+      color: white;
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .offline-active {
+      display: block !important;
+    }
+  </style>
+</head>
+<body class="pb-20">
+  <!-- Offline Indicator -->
+  <div id="offline-indicator" class="offline-active">
+    ⚠️ 离线模式 - 部分功能可能不可用
+  </div>
+
+  <!-- Main Content Area -->
+  <main id="app" class="min-h-screen">
+    <!-- Pages will be rendered here -->
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+    <div class="flex justify-around items-center max-w-md mx-auto">
+      <a href="#/today" class="nav-item active" data-page="today">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        今日任务
+      </a>
+      <a href="#/properties" class="nav-item" data-page="properties">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        房源列表
+      </a>
+      <a href="#/customers" class="nav-item" data-page="customers">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        客户
+      </a>
+      <a href="#/profile" class="nav-item" data-page="profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        我的
+      </a>
+    </div>
+  </nav>
+
+  <!-- Templates -->
+  <template id="page-today">
+    <div class="p-4">
+      <header class="flex justify-between items-center mb-6">
+        <div>
+          <h1 class="text-xl font-bold text-gray-900">今日任务</h1>
+          <p id="today-date" class="text-sm text-gray-500"></p>
+        </div>
+        <button id="lang-toggle" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+          CN / UG
+        </button>
+      </header>
+
+      <section class="mb-6">
+        <h2 class="text-lg font-semibold mb-3">待跟进客户</h2>
+        <div id="today-customers" class="space-y-3">
+          <!-- Customers will be rendered here -->
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold mb-3">快速操作</h2>
+        <div class="grid grid-cols-2 gap-3">
+          <button onclick="app.navigate('#/followup')" class="card flex items-center justify-center py-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+            <span>+ 新增跟进</span>
+          </button>
+          <button onclick="app.navigate('#/properties')" class="card flex items-center justify-center py-4 bg-gradient-to-br from-green-500 to-green-600 text-white">
+            <span>查看房源</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  </template>
+
+  <template id="page-properties">
+    <div class="p-4">
+      <header class="flex justify-between items-center mb-6">
+        <h1 class="text-xl font-bold text-gray-900">房源列表</h1>
+        <button onclick="app.refreshProperties()" class="p-2 bg-gray-100 rounded-full">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
+            <path d="M23 4v6h-6"></path>
+            <path d="M1 20v-6h6"></path>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+        </button>
+      </header>
+
+      <!-- Filter Tabs -->
+      <div class="flex overflow-x-auto pb-2 mb-4 space-x-2">
+        <button onclick="app.filterProperties('all')" class="px-4 py-1 bg-blue-600 text-white rounded-full text-sm whitespace-nowrap">全部</button>
+        <button onclick="app.filterProperties('AVAILABLE')" class="px-4 py-1 bg-gray-100 text-gray-700 rounded-full text-sm whitespace-nowrap">可售</button>
+        <button onclick="app.filterProperties('RESERVED')" class="px-4 py-1 bg-gray-100 text-gray-700 rounded-full text-sm whitespace-nowrap">已认购</button>
+        <button onclick="app.filterProperties('SOLD')" class="px-4 py-1 bg-gray-100 text-gray-700 rounded-full text-sm whitespace-nowrap">已售出</button>
+      </div>
+
+      <!-- Properties List -->
+      <div id="properties-list" class="space-y-3">
+        <!-- Properties will be rendered here -->
+      </div>
+    </div>
+  </template>
+
+  <template id="page-customers">
+    <div class="p-4">
+      <header class="flex justify-between items-center mb-6">
+        <h1 class="text-xl font-bold text-gray-900">客户列表</h1>
+      </header>
+
+      <!-- Search -->
+      <div class="mb-4 relative">
+        <input type="text" id="customer-search" placeholder="搜索客户..." class="w-full px-4 py-2 pl-10 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 absolute left-3 top-3 text-gray-400">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+
+      <!-- Customer List -->
+      <div id="customers-list" class="space-y-3">
+        <!-- Customers will be rendered here -->
+      </div>
+    </div>
+  </template>
+
+  <template id="page-profile">
+    <div class="p-4">
+      <header class="mb-6">
+        <h1 class="text-xl font-bold text-gray-900">我的</h1>
+      </header>
+
+      <!-- User Info -->
+      <section class="card mb-6 flex items-center space-x-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold" id="user-avatar">用户</div>
+        <div>
+          <h3 class="font-semibold text-lg" id="user-name">销售员</h3>
+          <p class="text-sm text-gray-500" id="user-phone"></p>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <section class="grid grid-cols-2 gap-3 mb-6">
+        <div class="card text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100">
+          <div class="text-2xl font-bold text-blue-700" id="stats-customers">0</div>
+          <div class="text-xs text-gray-600">客户数</div>
+        </div>
+        <div class="card text-center p-4 bg-gradient-to-br from-green-50 to-green-100">
+          <div class="text-2xl font-bold text-green-700" id="stats-followups">0</div>
+          <div class="text-xs text-gray-600">跟进次数</div>
+        </div>
+      </section>
+
+      <!-- Menu Items -->
+      <div class="space-y-3">
+        <button onclick="app.navigate('#/followup')" class="card flex items-center justify-between p-4">
+          <span>录入跟进记录</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-gray-400">
+            <path d="M12 5v12M5 12h14"/>
+          </svg>
+        </button>
+        <button onclick="app.logout()" class="card flex items-center justify-between p-4 bg-red-50 border border-red-100">
+          <span class="text-red-600">退出登录</span>
+        </button>
+      </div>
+
+      <!-- About -->
+      <section class="mt-8 text-center text-xs text-gray-400">
+        <p>REDP 销售助手 v1.0.0</p>
+        <p id="last-sync" class="mt-2">最后同步: -</p>
+      </section>
+    </div>
+  </template>
+
+  <template id="page-followup">
+    <div class="p-4">
+      <header class="mb-6 flex items-center">
+        <button onclick="app.navigate(-1)" class="mr-3 p-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <h1 class="text-xl font-bold">新增跟进记录</h1>
+      </header>
+
+      <form id="followup-form" class="space-y-4">
+        <!-- Customer Selection -->
+        <div>
+          <label class="block text-sm font-medium mb-2">选择客户</label>
+          <select id="followup-customer" required class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">请选择客户...</option>
+            <!-- Options will be populated -->
+          </select>
+        </div>
+
+        <!-- Followup Type -->
+        <div>
+          <label class="block text-sm font-medium mb-2">跟进方式</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" onclick="app.selectFollowupType('CALL')" class="followup-type-btn p-3 border rounded-lg text-center active:border-blue-500 active:bg-blue-50">
+              电话
+            </button>
+            <button type="button" onclick="app.selectFollowupType('VISIT')" class="followup-type-btn p-3 border rounded-lg text-center">
+              面谈
+            </button>
+            <button type="button" onclick="app.selectFollowupType('WECHAT')" class="followup-type-btn p-3 border rounded-lg text-center">
+              微信
+            </button>
+            <button type="button" onclick="app.selectFollowupType('SITE_VISIT')" class="followup-type-btn p-3 border rounded-lg text-center">
+              实地
+            </button>
+          </div>
+          <input type="hidden" id="followup-type" name="followup_type" required>
+        </div>
+
+        <!-- Followup Content -->
+        <div>
+          <label class="block text-sm font-medium mb-2">跟进内容</label>
+          <textarea id="followup-content" rows="4" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="记录与客户的沟通内容..." required></textarea>
+        </div>
+
+        <!-- Customer Response -->
+        <div>
+          <label class="block text-sm font-medium mb-2">客户反馈</label>
+          <textarea id="followup-response" rows="3" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="客户的主要反馈和意向..."></textarea>
+        </div>
+
+        <!-- Next Action -->
+        <div>
+          <label class="block text-sm font-medium mb-2">下次跟进时间</label>
+          <input type="date" id="followup-date" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+          保存跟进记录
+        </button>
+      </form>
+    </div>
+  </template>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "redp-mobile-client",
+  "version": "1.0.0",
+  "description": "REDP Sales Mobile PWA (Phase 2 - T05)",
+  "main": "js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "real-estate",
+    "pwa",
+    "mobile"
+  ],
+  "author": "REDP Team",
+  "license": "MIT"
+}

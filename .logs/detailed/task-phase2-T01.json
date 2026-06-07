@@ -1,0 +1,58 @@
+{
+  "task_id": "task-phase2-T01",
+  "task_name": "Property Inventory Management",
+  "status": "completed",
+  "started_at": "2026-06-07T02:30:00Z",
+  "completed_at": "2026-06-07T02:45:00Z",
+  "execution_time_seconds": 900,
+  "files_created": [
+    "supabase/migrations/008_phase2_properties.sql",
+    "supabase/functions/property_management/index.ts",
+    "supabase/functions/property_management/deno.json",
+    "supabase/functions/property_management/index.test.ts"
+  ],
+  "description": {
+    "objective": "建立房源管理模块，实现从开盘前的预售管理到交房的全生命周期追踪",
+    "database_changes": [
+      "新建 properties 表：存储房源基本信息、定价、状态机",
+      "新建 property_status_history 表：记录状态变更历史",
+      "新建 property_reservations 表：认购记录管理",
+      "修改 customers 表：新增 interested_property_ids 列"
+    ],
+    "state_machine": {
+      "states": ["AVAILABLE", "RESERVED", "UNDER_CONTRACT", "SOLD", "OWNER_OCCUPIED", "UNAVAILABLE"],
+      "transitions": [
+        {"from": "AVAILABLE", "to": "RESERVED", "action": "reserve"},
+        {"from": "RESERVED", "to": "UNDER_CONTRACT", "action": "convert_to_contract"},
+        {"from": "UNDER_CONTRACT", "to": "SOLD", "action": "mark_sold"},
+        {"from": "RESERVED", "to": "AVAILABLE", "action": "release"}
+      ]
+    },
+    "rls_policies": [
+      "sales_team: 只能查看 AVAILABLE 和 RESERVED 状态的房源",
+      "sales_team: 只能看到自己负责的认购记录",
+      "project_manager: 完全访问权限"
+    ],
+    "api_actions": [
+      {"name": "list", "description": "列出项目房源（支持按状态/楼层筛选）"},
+      {"name": "get", "description": "获取单套房源详情"},
+      {"name": "create", "description": "创建新房源"},
+      {"name": "update", "description": "更新房源基本信息"},
+      {"name": "reserve", "description": "认购房源（AVAILABLE → RESERVED）"},
+      {"name": "convert_to_contract", "description": "转合同（RESERVED → UNDER_CONTRACT）"},
+      {"name": "mark_sold", "description": "标记售出（UNDER_CONTRACT → SOLD）"},
+      {"name": "release", "description": "释放认购（RESERVED → AVAILABLE）"},
+      {"name": "update_price", "description": "更新定价（仅 project_manager）"}
+    ]
+  },
+  "test_results": {
+    "state_machine_tests": "passed",
+    "rls_policies_tested": true,
+    "unit_test_coverage": "mock-based tests created"
+  },
+  "notes": [
+    "状态转换通过数据库触发器强制约束",
+    "价格信息仅在销售团队查看时脱敏（不可见成交价）",
+    "所有关键操作都会记录到 audit_log"
+  ]
+}

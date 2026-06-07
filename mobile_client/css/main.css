@@ -1,0 +1,173 @@
+/* ============================================================================
+ * REDP Mobile Client - Main Styles (T05 - Phase 2)
+ * ============================================================================ */
+
+/* Base Styles */
+:root {
+  --primary-color: #1a5674;
+  --secondary-color: #2d8ebf;
+  --accent-color: #e89b30;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-light: #f3f4f6;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Uyghur Language Support */
+html[lang="ug"] body,
+html[dir="rtl"] body {
+  font-family: 'Noto Naskh Arabic', serif;
+}
+
+html[dir="rtl"] .uyghur-text {
+  font-family: 'Noto Naskh Arabic', serif;
+}
+
+/* Layout Utilities */
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.text-sm { font-size: 0.875rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+
+/* Buttons */
+.btn {
+  @apply px-4 py-2 rounded-lg font-medium transition-colors;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+
+.btn-secondary {
+  @apply bg-gray-100 text-gray-800 hover:bg-gray-200;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+  z-index: 50;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  text-decoration: none;
+}
+
+.nav-item svg {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+.nav-item.active {
+  color: var(--primary-color);
+}
+
+/* Status Badges */
+.status-available { background-color: #dcfce7; color: #166534; }
+.status-reserved { background-color: #fef3c7; color: #92400e; }
+.status-sold { background-color: #f3f4f6; color: #4b5563; }
+
+/* Inputs */
+input, select, textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  ring: 2px solid var(--primary-color);
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  border-left-color: var(--primary-color);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Offline Indicator */
+.offline-indicator {
+  display: none;
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.offline-active {
+  display: block !important;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .container { padding: 0.75rem; }
+  h1 { font-size: 1.5rem; }
+}
+
+/* RTL Support for Uyghur */
+[dir="rtl"] .nav-item svg,
+[dir="rtl"] .flex-row-reverse { flex-direction: row-reverse; }
