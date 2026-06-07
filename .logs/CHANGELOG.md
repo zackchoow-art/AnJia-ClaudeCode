@@ -4,6 +4,23 @@
 每个entry记录一次commit的关键信息。
 
 
+## [2026-06-07T03:05:50-07:00] task-phase2-
+
+**Author**: REDP System  
+**Commit**: `5d4ea3db`  
+**Message**: feat(phase2-T02~T05): implement AI sales, CRM, Uyghur support, and mobile PWA
+
+- T02: Sales AI assistant (recommendation engine + QA Q&A)
+- T03: Customer CRM enhancement (followups + scores + funnel stage)
+- T04: Uyghur language support (translation API + i18n)
+- T05: Mobile client PWA with offline support
+
+[task-phase2-T02, task-phase2-T03, task-phase2-T04, task-phase2-T05]  
+**Changes**: 3 SQL files, 8 TypeScript files  
+**Details**: [`.logs/detailed/task-phase2-.json`](.logs/detailed/task-phase2-.json)  
+**Review Status**: ⏳ Pending
+
+
 ## [2026-06-07T02:11:21-07:00] task-phase1-
 
 **Author**: REDP System  
