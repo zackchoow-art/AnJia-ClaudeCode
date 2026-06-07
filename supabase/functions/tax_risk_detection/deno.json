@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "dev": "supabase functions serve tax_risk_detection"
+  },
+  "imports": {}
+}

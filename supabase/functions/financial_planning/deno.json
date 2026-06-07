@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "dev": "supabase functions serve financial_planning"
+  },
+  "imports": {}
+}

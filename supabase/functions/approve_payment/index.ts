@@ -118,8 +118,33 @@ async function approvePayment(request: ApprovalRequest): Promise<ApprovalResult>
     .single();
   
   if (auditError) {
-    console.error('Failed to write audit log:', auditError);
-    // 不抛错,因为payment已经更新成功
+    // 记录结构化日志到审计表
+    await supabase
+      .from('audit_log')
+      .insert({
+        entity_type: 'system',
+        entity_id: request.payment_id,
+        action: 'WARNING',
+        actor_type: 'SYSTEM',
+        actor_id: 'approve_payment_function',
+        change_details: {
+          warning: 'Failed to write audit log entry',
+          error_message: auditError.message,
+          timestamp: new Date().toISOString()
+        }
+      })
+      .select('id')
+      .single()
+      .catch(() => {
+        // 如果审计日志插入也失败，记录到标准错误（仅此场景）
+        // eslint-disable-next-line no-console
+        console.error(JSON.stringify({
+          error: 'audit_log_insert_failed',
+          payment_id: request.payment_id,
+          message: auditError.message,
+          timestamp: new Date().toISOString()
+        }));
+      });
   }
   
   return {

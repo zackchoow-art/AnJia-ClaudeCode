@@ -44,7 +44,7 @@ Phase 0 验收通过
 
 ## Phase 1 技术约束
 
-1. **Nvidia NIM API 优先**: 所有 AI 推理使用 Nvidia NIM API，不引入其他 AI 服务
+1. **
 2. **Edge Functions 扩展**: 新功能以新的 Edge Function 形式添加，不修改 Phase 0 的 4 个已有 Function
 3. **数据库向前兼容**: Phase 1 的 schema 变更必须是增量的（新增列/表），不修改 Phase 0 的表结构
 4. **迁移文件编号**: 从 `004_phase1_*.sql` 开始，不覆盖 001-003

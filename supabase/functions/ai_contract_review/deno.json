@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "dev": "supabase functions serve ai_contract_review"
+  },
+  "imports": {}
+}

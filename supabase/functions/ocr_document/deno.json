@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "dev": "supabase functions serve ocr_document"
+  },
+  "imports": {}
+}
