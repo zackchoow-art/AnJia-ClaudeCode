@@ -153,9 +153,9 @@ cat > "$LOG_FILE" << EOF
   },
 
   "change_summary": {
-    "total_files_changed": $(echo "$CHANGED_FILES" | wc -l),
-    "sql_files_changed": ${SQL_CHANGES},
-    "typescript_files_changed": ${TS_CHANGES}
+    "total_files_changed": $(echo "$CHANGED_FILES" | grep -c . || echo "0"),
+    "sql_files_changed": ${SQL_CHANGES:-0},
+    "typescript_files_changed": ${TS_CHANGES:-0}
   },
 
   "database_migrations": ${DB_MIGRATIONS},

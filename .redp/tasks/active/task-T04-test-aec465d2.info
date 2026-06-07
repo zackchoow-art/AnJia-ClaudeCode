@@ -1,0 +1,7 @@
+TASK_ID=task-T04-test-aec465d2
+BRANCH=test/T04-worktree-a
+AGENT=T04-test-agent
+WORKTREE_PATH=worktrees/test-T04-worktree-a
+TABLES_LOCKED=schema_version
+CREATED_AT=2026-06-07T06:32:04Z
+STATUS=ACTIVE
