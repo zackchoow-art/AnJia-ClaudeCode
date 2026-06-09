@@ -1,16 +1,16 @@
 # 数据库集成指南
 
-本文档说明了 stitch 应用与 Supabase 后端数据库的集成方式。
+本文档说明了 admin_portal 应用与 Supabase 后端数据库的集成方式。
 
 ## 项目概述
 
-stitch 是一个基于 React + Vite 的前端应用，通过 Supabase Client 连接到后端 PostgreSQL 数据库。应用实现了完整的房地产开发管理功能。
+admin_portal 是一个基于 React + Vite 的前端应用，通过 Supabase Client 连接到后端 PostgreSQL 数据库。应用实现了完整的房地产开发管理功能。
 
 ## 集成架构
 
 ```
 ┌─────────────────┐     Supabase SDK      ┌──────────────────┐
-│   stitch App    │ ◄────────────────────► │  Supabase DB     │
+│ admin_portal    │ ◄────────────────────► │  Supabase DB     │
 │   (React)       │     REST API          │  (PostgreSQL)    │
 └─────────────────┘                        └──────────────────┘
                                                       │
@@ -25,7 +25,7 @@ stitch 是一个基于 React + Vite 的前端应用，通过 Supabase Client 连
 ## 目录结构
 
 ```
-stitch/
+admin_portal/
 ├── src/
 │   ├── types/
 │   │   └── database.ts          # 数据库表 TypeScript 类型定义

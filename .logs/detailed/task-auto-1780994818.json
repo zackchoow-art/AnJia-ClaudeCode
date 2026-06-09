@@ -1,0 +1,342 @@
+{
+  "task_metadata": {
+    "task_id": "task-auto-1780994818",
+    "agent_id": "git-hook-system",
+    "task_type": "code_change",
+    "status": "committed",
+    "timestamp": "2026-06-09T08:46:59Z"
+  },
+
+  "git_info": {
+    "commit_hash": "9d458a6278f0ac003bce59597516c47e416468c7",
+    "commit_message": "docs: remove admin_portal and admin_portal_new directories\n\n- Deleted admin_portal (old React/Vite dashboard)\n- Deleted admin_portal_new (alternative dashboard prototype)\n\nStitch remains as the sole active project directory.\n",
+    "author": "REDP System",
+    "commit_date": "2026-06-09T01:46:57-07:00"
+  },
+
+  "change_summary": {
+    "total_files_changed": 52,
+    "sql_files_changed": 0,
+    "typescript_files_changed": 33
+  },
+
+  "database_migrations": [],
+
+  "code_changes": [{
+        "file_path": ".claude/mcp-launcher.sh",
+        "action": "created",
+        "language": "bash",
+        "lines_added": 11,
+        "lines_removed": 0
+      },{
+        "file_path": ".claude/settings.local.json",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 9,
+        "lines_removed": 1
+      },{
+        "file_path": ".logs/CHANGELOG.md",
+        "action": "modified",
+        "language": "markdown",
+        "lines_added": 19,
+        "lines_removed": 0
+      },{
+        "file_path": ".logs/detailed/task-auto-1780992590.json",
+        "action": "created",
+        "language": "other",
+        "lines_added": 617,
+        "lines_removed": 0
+      },{
+        "file_path": "MCP_CONFIG.md",
+        "action": "created",
+        "language": "markdown",
+        "lines_added": 300,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/.env.example",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/README.md",
+        "action": "deleted",
+        "language": "markdown",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/index.html",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/package-lock.json",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/package.json",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/postcss.config.js",
+        "action": "deleted",
+        "language": "javascript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/App.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/env.d.ts",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/index.css",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/layouts/DashboardLayout.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/main.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/AuditPage.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/BudgetPage.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/ContractsPage.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/CustomersPage.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/DashboardPage.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/PaymentsPage.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/ProjectsPage.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/types/index.ts",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/utils/api.ts",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/vite-env.d.ts",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/tsconfig.json",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/tsconfig.node.json",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/vite.config.ts",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/README.md",
+        "action": "deleted",
+        "language": "markdown",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/index.html",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/package-lock.json",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/package.json",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/App.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/Sidebar.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/Topbar.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/index.css",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/main.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/Approvals.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/AuditLogs.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/Budget.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/Contracts.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/Customers.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/Dashboard.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/Finance.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/Projects.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/Sales.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/pages/Settings.tsx",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/types/index.ts",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/src/utils/api.ts",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/tsconfig.json",
+        "action": "deleted",
+        "language": "other",
+        "lines_added": 0,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal_new/vite.config.ts",
+        "action": "deleted",
+        "language": "typescript",
+        "lines_added": 0,
+        "lines_removed": 0
+      }],
+
+  "approval_log": [],
+
+  "review_status": "pending"
+}
