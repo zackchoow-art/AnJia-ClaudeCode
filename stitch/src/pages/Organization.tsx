@@ -1,0 +1,319 @@
+import { useEffect, useState } from 'react';
+import {
+  Download,
+  Plus,
+  Network,
+  ZoomIn,
+  ZoomOut,
+  Filter as FilterIcon,
+  ShieldAlert,
+  Search,
+  ShieldCheck,
+  CheckSquare,
+  Square,
+  XSquare,
+  Info,
+  Clock,
+  Shield,
+} from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
+import type { Customer, AuditLog } from '../types/database';
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL || '',
+  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
+);
+
+export default function Organization() {
+  const [loading, setLoading] = useState(true);
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const { data: custs } = await supabase.from<Customer>('customers').select('*');
+      setCustomers(custs || []);
+
+      // Load recent audit logs
+      const { data: logs } = await supabase.from<AuditLog>('audit_log').select('*').order('timestamp', { ascending: false }).limit(10);
+      setAuditLogs(logs || []);
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="p-8 flex items-center justify-center h-[calc(100vh-64px)]">
+        <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-4 md:p-8 flex-1 max-w-[1440px] mx-auto w-full flex flex-col gap-6 h-[calc(100vh-64px)] overflow-y-auto">
+      {/* Page Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
+        <div>
+          <h2 className="text-3xl lg:text-5xl font-bold text-on-surface tracking-tight mb-1">组织架构与权限</h2>
+          <p className="text-sm text-on-surface-variant">管理部门层级、人员角色及系统访问控制。</p>
+        </div>
+        <div className="flex gap-3 w-full md:w-auto">
+          <button
+            onClick={loadData}
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-transparent border border-primary text-primary text-xs font-bold rounded-lg hover:bg-primary/10 transition-colors uppercase tracking-wider"
+          >
+            <Download className="w-4 h-4" /> 导出报告
+          </button>
+          <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-lg hover:bg-primary-dark transition-all shadow-[0_0_15px_rgba(0,103,127,0.3)] uppercase tracking-wider">
+            <Plus className="w-4 h-4" /> 新建部门/角色
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
+        {/* Stats Overview */}
+        <div className="lg:col-span-12 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+          {[
+            { label: '总客户数', value: customers.length, color: 'text-primary' },
+            { label: '活跃合同', value: 0, color: 'text-secondary' }, // Need to load contracts
+            { label: '待审批', value: 3, color: 'text-warning' },
+            { label: '系统状态', value: '在线', color: 'text-success' },
+          ].map((stat, i) => (
+            <div key={i} className="glass-panel p-4 rounded-xl flex items-center gap-4">
+              <div className={`w-12 h-12 rounded-lg bg-${stat.color}/10 border border-${stat.color}/30 flex items-center justify-center ${stat.color}`}>
+                <Network className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">{stat.label}</p>
+                <p className={`text-2xl font-bold mt-1 ${stat.color}`}>{stat.value}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Org Tree View */}
+        <section className="glass-panel rounded-xl lg:col-span-8 flex flex-col min-h-[500px] overflow-hidden">
+          <div className="px-6 py-4 border-b border-outline-variant/30 bg-primary/5 flex justify-between items-center shrink-0">
+            <div className="flex items-center gap-2">
+              <Network className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-bold text-on-surface">Organization Chart</h3>
+            </div>
+            <div className="flex gap-2">
+              <button className="p-1.5 rounded hover:bg-on-surface/10 text-on-surface-variant transition-colors"><ZoomIn className="w-4 h-4" /></button>
+              <button className="p-1.5 rounded hover:bg-on-surface/10 text-on-surface-variant transition-colors"><ZoomOut className="w-4 h-4" /></button>
+              <button className="p-1.5 rounded hover:bg-on-surface/10 text-on-surface-variant transition-colors"><FilterIcon className="w-4 h-4" /></button>
+            </div>
+          </div>
+          <div className="flex-1 overflow-auto custom-scrollbar p-8 bg-surface-container-low flex justify-center items-start pt-12 relative">
+            <div className="flex items-center justify-center absolute inset-0 opacity-[0.03] pointer-events-none">
+              <Network className="w-96 h-96" />
+            </div>
+            {/* Simple CSS Org Tree */}
+            <div className="flex flex-col items-center relative z-10 w-full min-w-max">
+              {/* Root */}
+              <div className="relative flex flex-col items-center group cursor-pointer hover:-translate-y-1 transition-transform">
+                <div className="px-6 py-3 rounded-lg border border-primary/40 bg-white/90 backdrop-blur-md shadow-md text-center z-10 min-w-[200px]">
+                  <div className="text-sm font-bold text-primary">AETHER ESTATE 集团</div>
+                  <div className="text-[10px] text-on-surface-variant font-mono mt-1">系统全局 • {customers.length} customers</div>
+                </div>
+                <div className="w-px h-8 bg-outline-variant/60 -mb-px"></div>
+              </div>
+              {/* Connector level */}
+              <div className="relative flex justify-center w-full pt-0">
+                <div className="absolute top-0 left-[15%] right-[15%] h-px bg-outline-variant/60"></div>
+                <div className="flex justify-center gap-8 md:gap-16 w-full">
+                  {['工程开发部', '资产运营部', '财务审计部'].map((dept, i) => (
+                    <div key={i} className="relative flex flex-col items-center w-48">
+                      <div className={`absolute top-0 w-px h-4 bg-outline-variant/60 -mt-4`}></div>
+                      <div
+                        className={`px-4 py-3 rounded border ${
+                          dept === '资产运营部'
+                            ? 'border-2 border-primary bg-primary/10 shadow-md cursor-pointer hover:-translate-y-1 transition-transform'
+                            : 'border-outline-variant/40 bg-white/80 backdrop-blur-md cursor-pointer hover:border-secondary/60 hover:shadow-sm transition-all'
+                        } text-center w-full`}
+                      >
+                        <div className={`text-sm font-bold ${
+                          dept === '资产运营部' ? 'text-primary' : `text-${dept === '工程开发部' ? 'secondary' : 'tertiary'}`
+                        }`}>{dept}</div>
+                        <div className="flex justify-center items-center gap-1 mt-2">
+                          <span className={`w-2 h-2 rounded-full ${
+                            dept === '资产运营部' ? 'bg-primary animate-pulse' : `bg-${dept === '工程开发部' ? 'secondary' : 'tertiary'}`
+                          }`}></span>
+                          <span className="text-[10px] text-on-surface-variant font-mono">
+                            {(Math.random() * 50 + 10).toFixed(0)} 人
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Right Stack */}
+        <div className="lg:col-span-4 flex flex-col gap-6">
+          {/* Audit Logs */}
+          <section className="glass-panel rounded-xl flex-1 flex flex-col min-h-[220px]">
+            <div className="px-4 py-3 border-b border-outline-variant/30 flex justify-between items-center bg-surface/40">
+              <div className="flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-tertiary" />
+                <h3 className="text-sm font-bold text-on-surface">Security Audit Logs</h3>
+              </div>
+              <button
+                onClick={loadData}
+                className="text-[10px] text-primary hover:underline uppercase tracking-wider font-bold"
+              >
+                查看全部
+              </button>
+            </div>
+            <div className="overflow-y-auto custom-scrollbar flex-1 bg-white/30">
+              {auditLogs.length === 0 ? (
+                <div className="p-8 text-center text-on-surface-variant">
+                  <ShieldAlert className="w-8 h-8 mx-auto mb-2 opacity-30" />
+                      <p>暂无最近审计日志</p>
+                    </div>
+                  ) : (
+                    auditLogs.map((log) => (
+                      <li key={log.id} className="p-3 hover:bg-white/50 transition-colors">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <span className="text-xs text-on-surface font-medium">{log.actor_name} <span className="text-on-surface-variant font-normal">on</span> {log.entity_type} <span className="text-on-surface-variant font-normal">{log.action}</span></span>
+                            <div className="text-[10px] text-on-surface-variant mt-1 flex items-center gap-1 font-mono">
+                              <Clock className="w-3 h-3" /> {new Date(log.timestamp).toLocaleString()}
+                            </div>
+                          </div>
+                          <span
+                            className={`px-1.5 py-0.5 rounded text-[9px] ${
+                              log.action === 'REJECTED' || log.action === 'DELETED'
+                                ? 'bg-error/10 text-error border border-error/20 uppercase tracking-widest font-bold'
+                                : log.action === 'CREATED' || log.action === 'APPROVED'
+                                ? 'bg-primary/10 text-primary border border-primary/20 uppercase tracking-widest font-bold'
+                                : 'bg-secondary/10 text-secondary border border-secondary/20 uppercase tracking-widest font-bold'
+                            }`}
+                          >
+                            {log.action}
+                          </span>
+                        </div>
+                      </li>
+                    ))
+                  )}
+                </div>
+          </section>
+
+          {/* Role Summary */}
+          <section className="glass-panel rounded-xl p-5 flex flex-col justify-center relative overflow-hidden flex-[0.7] min-h-[180px]">
+            <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+            <h3 className="text-sm font-bold text-on-surface mb-5 flex items-center gap-2">
+              <Shield className="w-4 h-4 text-on-surface-variant" /> 全局角色分布
+            </h3>
+            <div className="space-y-4 relative z-10">
+              {[
+                { label: '超级管理员', percentage: 3, color: 'bg-primary' },
+                { label: '部门主管', percentage: 15, color: 'bg-secondary' },
+                { label: '普通职员', percentage: 82, color: 'bg-outline' },
+              ].map((role, i) => (
+                <div key={i}>
+                  <div className="flex justify-between text-xs mb-1">
+                    <span className="text-on-surface-variant">{role.label}</span>
+                    <span
+                      className={`${role.color.replace('bg-', 'text-')} font-mono font-bold`}
+                    >
+                      {role.percentage}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-surface-container-high rounded-full h-1.5">
+                    <div className={`h-1.5 rounded-full ${role.color} shadow-sm`} style={{ width: `${role.percentage}%` }}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      </div>
+
+      {/* Bottom Full Width - Directory & Matrix */}
+      <section className="glass-panel rounded-xl flex flex-col md:flex-row overflow-hidden min-h-[400px]">
+        {/* Left: Staff Directory */}
+        <div className="w-full md:w-[35%] lg:w-1/3 border-r border-outline-variant/30 flex flex-col bg-white/40">
+          <div className="p-4 border-b border-outline-variant/30 flex justify-between items-center bg-surface/30">
+            <h3 className="text-sm font-bold text-on-surface">Customer List - {customers.length} 人</h3>
+          </div>
+          <div className="p-3 border-b border-outline-variant/20">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
+              <input
+                type="text"
+                placeholder="过滤客户..."
+                className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded py-1.5 pl-8 pr-2 text-xs text-on-surface focus:outline-none focus:border-primary/50 transition-colors shadow-sm"
+              />
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto custom-scrollbar">
+            {customers.slice(0, 10).map((customer) => (
+              <div key={customer.id} className="p-3 flex items-center gap-3 border-l-2 border-primary bg-primary/5 cursor-pointer hover:bg-white/60 transition-colors">
+                <div className="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center text-xs font-bold text-primary border border-primary/30 shadow-sm">
+                  {customer.customer_name.substring(0, 2)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-on-surface font-semibold truncate">{customer.customer_name}</p>
+                  <p className="text-[10px] text-on-surface-variant font-mono truncate">ID: {customer.id.substring(0, 8)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: Permission Matrix */}
+        <div className="w-full md:w-[65%] lg:w-2/3 flex flex-col relative bg-surface-container-lowest/80">
+          <div className="p-4 border-b border-outline-variant/30 bg-primary/5 flex justify-between items-center shadow-sm">
+            <h3 className="text-sm font-bold text-on-surface">权限矩阵分配</h3>
+            <button className="px-3 py-1.5 bg-primary/10 text-primary border border-primary/30 rounded text-xs font-bold tracking-wider hover:bg-primary/20 transition-colors uppercase">
+              保存更改
+            </button>
+          </div>
+          <div className="flex-1 overflow-x-auto custom-scrollbar p-6">
+            <table className="w-full text-left border-collapse min-w-[500px]">
+              <thead>
+                <tr className="border-b border-outline-variant/30 text-xs text-on-surface-variant font-bold uppercase tracking-wider">
+                  <th className="pb-3 pl-2">功能模块</th>
+                  <th className="pb-3 text-center w-16">查看</th>
+                  <th className="pb-3 text-center w-16">创建</th>
+                  <th className="pb-3 text-center w-16">编辑</th>
+                  <th className="pb-3 text-center w-16">删除</th>
+                  <th className="pb-3 text-center w-16">审批</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm divide-y divide-outline-variant/20">
+                {[
+                  'Dashboard', 'Projects', 'Contracts', 'Sales', 'Finance', 'Organization'
+                ].map((module, i) => (
+                  <tr key={i} className="hover:bg-primary/5 transition-colors">
+                    <td className="py-4 pl-2 font-medium text-on-surface">{module}</td>
+                    <td className="py-4 text-center"><CheckSquare className="w-5 h-5 text-primary mx-auto" /></td>
+                    <td className="py-4 text-center"><Square className="w-5 h-5 text-outline-variant/50 mx-auto" /></td>
+                    <td className="py-4 text-center"><Square className="w-5 h-5 text-outline-variant/50 mx-auto" /></td>
+                    <td className="py-4 text-center opacity-30"><XSquare className="w-5 h-5 text-on-surface-variant mx-auto" /></td>
+                    <td className="py-4 text-center opacity-30"><XSquare className="w-5 h-5 text-on-surface-variant mx-auto" /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="mt-8 p-3 rounded-lg bg-surface/80 border border-outline-variant/30 flex items-start gap-3 shadow-sm">
+              <Info className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+              <p className="text-xs text-on-surface-variant leading-relaxed">更改权限可能影响该用户在系统中的操作。高级权限（如删除、审批）建议需双重验证授权。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

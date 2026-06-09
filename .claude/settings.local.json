@@ -60,7 +60,24 @@
       "Bash(kill -HUP 4012082)",
       "Bash(ps -p 4012082 -o pid,etime,args)",
       "Bash(kill -TERM 4012082)",
-      "Bash(sudo docker *)"
+      "Bash(sudo docker *)",
+      "Bash(npm run *)",
+      "Bash(pkill -f \"vite\")",
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)",
+      "Bash(npm ls *)",
+      "Bash(git -C /Users/george/workspace/aj-system diff --name-only)",
+      "Bash(git -C /Users/george/workspace/aj-system status)",
+      "Bash(mkdir -p /tmp/backup)",
+      "Bash(cp /Users/george/workspace/aj-system/stitch/src/pages/ProjectForm.tsx /tmp/backup/)",
+      "Bash(pkill -f \"preview\")",
+      "Bash(tee /tmp/dev_verbose.log)",
+      "Bash(pkill -f \"node.*vite\")",
+      "WebFetch(domain:github.com)",
+      "Bash(claude mcp *)",
+      "Bash(npx chrome-devtools-mcp@latest --autoConnect --slim)",
+      "Bash(pkill -f \"chrome-devtools\")",
+      "Bash(npx --version)"
     ]
   }
 }

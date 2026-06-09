@@ -1,0 +1,315 @@
+import { useEffect, useState } from 'react';
+import {
+  Filter,
+  Plus,
+  FileText,
+  CheckCircle2,
+  AlertCircle,
+  Edit3,
+  Printer,
+  Download,
+} from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
+import type { Contract, 客户信息 } from '../types/database';
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL || '',
+  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
+);
+
+export default function Contracts() {
+  const [loading, setLoading] = useState(true);
+  const [contracts, setContracts] = useState<Contract[]>([]);
+  const [selectedContractId, setSelectedContractId] = useState<string | null>(null);
+  const [customers, set客户信息s] = useState<客户信息[]>([]);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const { data: contractsData, error } = await supabase
+        .from<Contract>('contracts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading contracts:', error);
+      } else {
+        setContracts(contractsData || []);
+      }
+
+      const { data: customersData } = await supabase.from<客户信息>('customers').select('*');
+      set客户信息s(customersData || []);
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const get客户信息Name = (customerId: string | null) => {
+    if (!customerId) return 'N/A';
+    const customer = customers.find((c) => c.id === customerId);
+    return customer?.customer_name || 'Unknown';
+  };
+
+  const get状态Config = (status: string) => {
+    switch (status) {
+      case 'SIGNED':
+      case 'ACTIVATED':
+        return { label: '生效中', color: 'text-primary', dotColor: 'bg-primary' };
+      case 'DRAFT':
+        return { label: '草稿', color: 'text-tertiary', dotColor: 'bg-tertiary' };
+      case 'COMPLETED':
+        return { label: '已完成', color: 'text-success', dotColor: 'bg-success' };
+      case 'TERMINATED':
+        return { label: '已终止', color: 'text-error', dotColor: 'bg-error' };
+      default:
+        return { label: status, color: 'text-on-surface-variant', dotColor: 'bg-outline' };
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(amount);
+  };
+
+  if (loading) {
+    return (
+      <div className="h-[calc(100vh-64px)] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  const selectedContract = contracts.find((c) => c.id === selectedContractId);
+
+  return (
+    <div className="h-[calc(100vh-64px)] flex flex-col lg:flex-row gap-6 p-6">
+      {/* Left List Pane */}
+      <div className="flex-1 flex flex-col gap-6 overflow-y-auto pr-2 custom-scrollbar">
+        <div className="flex justify-between items-end">
+          <div>
+            <h2 className="text-3xl font-bold text-on-surface">合同库</h2>
+            <p className="text-on-surface-variant text-sm mt-1">
+              管理和审查生效协议。 总计：{contracts.length} 份合同
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button className="flex items-center gap-2 px-4 py-2 bg-white/50 border border-primary/30 text-primary rounded shadow-sm hover:bg-white transition-colors text-xs font-bold uppercase tracking-wider">
+              筛选
+            </button>
+            <button className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded shadow-[0_4px_14px_0_rgba(0,209,255,0.3)] hover:opacity-90 transition-opacity text-xs font-bold uppercase tracking-wider">
+              <Plus className="w-4 h-4" /> 新建合同
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+          {contracts.map((contract) => {
+            const statusConfig = get状态Config(contract.contract_status);
+            return (
+              <div
+                key={contract.id}
+                onClick={() => setSelectedContractId(contract.id)}
+                className={`glass-panel p-5 rounded-xl cursor-pointer transition-all duration-300 ${
+                  selectedContractId === contract.id ? 'border-primary/40 shadow-[0_0_15px_rgba(0,209,255,0.1)]' : 'hover:border-primary/40'
+                }`}
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-12 h-12 rounded-lg bg-surface-container border ${
+                        contract.contract_status === 'DRAFT' ? 'border-white/50' : 'border-primary/30'
+                      } flex items-center justify-center ${statusConfig.color}`}
+                    >
+                      <FileText className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className={`font-semibold text-lg leading-tight mb-1 ${
+                        contract.contract_status === 'DRAFT' ? 'text-on-surface/70' : 'text-on-surface'
+                      }`}>
+                        {contract.contract_name}
+                      </h3>
+                      <p className="font-mono text-xs text-outline">ID: {contract.id.substring(0, 8)}...</p>
+                    </div>
+                  </div>
+                  <div className={`flex items-center gap-2 px-2 py-1 rounded-full border ${statusConfig.color.replace('text-', 'border-')}/30 bg-opacity-5`}>
+                    <div className={`w-2 h-2 rounded-full ${statusConfig.dotColor} animate-pulse`}></div>
+                    <span className={`text-[10px] uppercase font-bold tracking-widest ${statusConfig.color}`}>
+                      {statusConfig.label}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-y-3 mt-4 pt-4 border-t border-outline-variant/20">
+                  <div>
+                    <p className="text-[10px] font-bold text-outline uppercase tracking-wider mb-1">合同方</p>
+                    <p className="text-sm font-medium truncate" title={contract.counterparty_name}>
+                      {contract.counterparty_name}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-outline uppercase tracking-wider mb-1">金额</p>
+                    <p className="text-sm font-mono text-primary">{formatCurrency(contract.total_amount)}</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-dashed border-outline-variant/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-on-surface-variant">类型：{contract.contract_type}</span>
+                    <span className="text-[10px] text-on-surface-variant">
+                      创建时间：{new Date(contract.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Right Preview Pane */}
+      <div className="hidden lg:block w-[400px] xl:w-[500px] glass-panel rounded-xl flex-col overflow-hidden border-primary/30 relative shadow-xl">
+        {selectedContract ? (
+          <>
+            <div className="h-32 bg-primary/10 relative border-b border-outline-variant/30 p-6 flex items-end">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+              <div className="relative w-full flex justify-between items-end z-10">
+                <div className="w-16 h-16 bg-white border border-slate-200 rounded-lg flex items-center justify-center shadow-lg -mb-10 text-primary">
+                  <FileText className="w-8 h-8" />
+                </div>
+                <div className="flex gap-2">
+                  <button className="w-8 h-8 bg-white/80 rounded-full border border-white flex items-center justify-center hover:bg-white transition-colors shadow-sm text-on-surface-variant">
+                    <Printer className="w-4 h-4" />
+                  </button>
+                  <button className="w-8 h-8 bg-white/80 rounded-full border border-white flex items-center justify-center hover:bg-white transition-colors shadow-sm text-on-surface-variant">
+                    <Download className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6 pt-12">
+              <div className="mb-6 border-b border-surface-variant pb-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className={`w-2 h-2 rounded-full ${selectedContract.contract_status === 'SIGNED' || selectedContract.contract_status === 'ACTIVATED' ? 'bg-primary pulse-dot' : 'bg-tertiary'}`}></div>
+                  <span className="text-xs uppercase font-bold text-primary tracking-widest">生效中 Contract</span>
+                </div>
+                <h2 className="text-2xl font-bold text-on-surface mb-1">{selectedContract.contract_name}</h2>
+                <p className="font-mono text-sm text-outline">ID: {selectedContract.id.substring(0, 8)}...</p>
+              </div>
+
+              <div className="space-y-6">
+                {/* 关键条款 */}
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">关键条款</h4>
+                  <div className="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-4 grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-[10px] font-mono text-outline mb-1 uppercase tracking-wider">合同类型</p>
+                      <p className="font-medium text-sm">{selectedContract.contract_type}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-mono text-outline mb-1 uppercase tracking-wider">状态</p>
+                      <p className={`font-medium text-sm ${get状态Config(selectedContract.contract_status).color}`}>
+                        {selectedContract.contract_status}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-mono text-outline mb-1 uppercase tracking-wider">总价值</p>
+                      <p className="font-medium text-sm">{formatCurrency(selectedContract.total_amount)}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-mono text-outline mb-1 uppercase tracking-wider">合同方</p>
+                  <p className="font-medium text-sm truncate" title={selectedContract.counterparty_name}>
+                        {selectedContract.counterparty_name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 客户信息 Info */}
+                {selectedContract.customer_id && (
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">客户信息</h4>
+                    <div className="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-4">
+                      <p className="font-medium text-sm truncate" title={get客户信息Name(selectedContract.customer_id)}>
+                        {get客户信息Name(selectedContract.customer_id)}
+                      </p>
+                      <p className="text-[10px] font-mono text-on-surface-variant mt-2">
+                        ID: {selectedContract.customer_id.substring(0, 8)}...
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* 付款节点 */}
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">付款节点</h4>
+                  <div className="space-y-2">
+                    {(selectedContract.payment_milestones || []).map((milestone, i) => (
+                      <div key={i} className="flex items-center justify-between p-3 bg-surface-container-lowest/50 rounded-lg border border-outline-variant/30">
+                        <span className="text-sm font-medium">{milestone.name}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="font-mono text-xs text-on-surface-variant">{milestone.percentage}%</span>
+                          {new Date(milestone.due_date) < new Date() ? (
+                            <span className="px-2 py-0.5 rounded bg-error/10 text-error text-[10px] font-bold">逾期</span>
+                          ) : (
+                            <span className="text-xs text-on-surface-variant">
+                              {new Date(milestone.due_date).toLocaleDateString()}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 签署人 */}
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">签署人</h4>
+                  <div className="space-y-2">
+                    {selectedContract.signatory_list?.map((signatory, i) => (
+                      <div key={i} className="flex items-center justify-between p-3 bg-surface-container-lowest/50 rounded-lg border border-outline-variant/30">
+                        <span className="text-sm font-medium">{signatory.name}</span>
+                        {signatory.signed ? (
+                          <CheckCircle2 className="w-5 h-5 text-primary" />
+                        ) : (
+                          <div className="flex items-center gap-2 text-on-surface-variant">
+                            <span className="text-xs">待处理</span>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Actions */}
+            <div className="p-4 border-t border-outline-variant/20 bg-surface/80 backdrop-blur flex gap-3 z-20">
+              <button className="flex-1 px-4 py-2 border border-outline text-on-surface rounded text-xs font-bold tracking-wider uppercase hover:bg-surface-container transition-colors">
+                编辑元数据
+              </button>
+              <button className="flex-1 px-4 py-2 bg-primary text-on-primary rounded text-xs font-bold tracking-wider uppercase hover:bg-primary-container transition-colors shadow-md">
+                查看PDF
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="h-full flex items-center justify-center p-8 text-center">
+            <div>
+              <FileText className="w-16 h-16 mx-auto mb-4 opacity-30" />
+              <p className="text-on-surface-variant">选择一个合同查看详情</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

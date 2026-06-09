@@ -4,182 +4,47 @@
     "agent_id": "git-hook-system",
     "task_type": "code_change",
     "status": "committed",
-    "timestamp": "2026-06-07T10:05:50Z"
+    "timestamp": "2026-06-07T10:18:23Z"
   },
 
   "git_info": {
-    "commit_hash": "5d4ea3db5d80ca00aa1a023f38befe1e337af84e",
-    "commit_message": "feat(phase2-T02~T05): implement AI sales, CRM, Uyghur support, and mobile PWA\n\n- T02: Sales AI assistant (recommendation engine + QA Q&A)\n- T03: Customer CRM enhancement (followups + scores + funnel stage)\n- T04: Uyghur language support (translation API + i18n)\n- T05: Mobile client PWA with offline support\n\n[task-phase2-T02, task-phase2-T03, task-phase2-T04, task-phase2-T05]\n",
+    "commit_hash": "083a21d232b0fa2537e3f615cbaa51427d698745",
+    "commit_message": "docs(acceptance): phase2 acceptance report [task-phase2-T06]\n\nPhase 2 Acceptance Audit - ALL CHECKS PASSED:\n\n- Mobile Security: No service_role key leaks detected\n- Database RLS: All 9 Phase 2 tables have RLS enabled (100% coverage)\n- Data Isolation: sales_team blocked from payments/cost_ledger, proper isolation on customer data\n- Regression Tests: validate_payment and audit_log integrity verified\n- Mobile Functional: End-to-end workflow confirmed working\n\nArtifacts Created:\n- .logs/tests/PHASE2_ACCEPTANCE_REPORT.json\n- .logs/detailed/task-phase2-T06.json\n\nVerdict: APPROVED - Phase 2 complete and ready for production deployment\nNext Tag: v1.0.0-phase2-accepted\n",
     "author": "REDP System",
-    "commit_date": "2026-06-07T03:05:50-07:00"
+    "commit_date": "2026-06-07T03:18:22-07:00"
   },
 
   "change_summary": {
-    "total_files_changed": 24,
-    "sql_files_changed": 3,
-    "typescript_files_changed": 8
+    "total_files_changed": 4,
+    "sql_files_changed": 0,
+    "typescript_files_changed": 0
   },
 
-  "database_migrations": [{
-        "migration_id": "008_phase2_properties",
-        "migration_file": "supabase/migrations/008_phase2_properties.sql",
-        "tables_affected": ["properties","property_reservations","property_status_history"],
-        "timestamp": "2026-06-07T10:05:50Z"
-      },{
-        "migration_id": "010_phase2_crm",
-        "migration_file": "supabase/migrations/010_phase2_crm.sql",
-        "tables_affected": ["customer_followups","customer_scores"],
-        "timestamp": "2026-06-07T10:05:50Z"
-      },{
-        "migration_id": "011_phase2_ai_sales",
-        "migration_file": "supabase/migrations/011_phase2_ai_sales.sql",
-        "tables_affected": ["property_recommendation_details","property_recommendations","sales_qa_questions","sales_qa_sessions"],
-        "timestamp": "2026-06-07T10:05:50Z"
-      }],
+  "database_migrations": [],
 
   "code_changes": [{
         "file_path": ".logs/CHANGELOG.md",
         "action": "modified",
         "language": "markdown",
-        "lines_added": 49,
+        "lines_added": 35,
         "lines_removed": 0
       },{
-        "file_path": ".logs/detailed/task-phase1-.json",
+        "file_path": ".logs/detailed/task-phase2-T06.json",
         "action": "created",
         "language": "other",
-        "lines_added": 259,
-        "lines_removed": 0
-      },{
-        "file_path": ".logs/detailed/task-phase2-T01.json",
-        "action": "created",
-        "language": "other",
-        "lines_added": 58,
+        "lines_added": 265,
         "lines_removed": 0
       },{
         "file_path": ".logs/detailed/task-phase2-summary.json",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 37,
+        "lines_removed": 99
+      },{
+        "file_path": ".logs/tests/PHASE2_ACCEPTANCE_REPORT.json",
         "action": "created",
         "language": "other",
-        "lines_added": 104,
-        "lines_removed": 0
-      },{
-        "file_path": "mobile_client/README.md",
-        "action": "created",
-        "language": "markdown",
-        "lines_added": 131,
-        "lines_removed": 0
-      },{
-        "file_path": "mobile_client/css/main.css",
-        "action": "created",
-        "language": "other",
-        "lines_added": 173,
-        "lines_removed": 0
-      },{
-        "file_path": "mobile_client/index.html",
-        "action": "created",
-        "language": "other",
-        "lines_added": 349,
-        "lines_removed": 0
-      },{
-        "file_path": "mobile_client/js/app.js",
-        "action": "created",
-        "language": "javascript",
-        "lines_added": 595,
-        "lines_removed": 0
-      },{
-        "file_path": "mobile_client/package.json",
-        "action": "created",
-        "language": "other",
-        "lines_added": 16,
-        "lines_removed": 0
-      },{
-        "file_path": "mobile_client/sw.js",
-        "action": "created",
-        "language": "javascript",
-        "lines_added": 82,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/crm_management/deno.json",
-        "action": "created",
-        "language": "other",
-        "lines_added": 5,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/crm_management/index.ts",
-        "action": "created",
-        "language": "typescript",
-        "lines_added": 440,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/property_management/deno.json",
-        "action": "created",
-        "language": "other",
-        "lines_added": 5,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/property_management/index.test.ts",
-        "action": "created",
-        "language": "typescript",
-        "lines_added": 180,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/property_management/index.ts",
-        "action": "created",
-        "language": "typescript",
-        "lines_added": 758,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/sales_ai_qa/deno.json",
-        "action": "created",
-        "language": "other",
-        "lines_added": 5,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/sales_ai_qa/index.ts",
-        "action": "created",
-        "language": "typescript",
-        "lines_added": 278,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/sales_ai_recommend/deno.json",
-        "action": "created",
-        "language": "other",
-        "lines_added": 5,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/sales_ai_recommend/index.ts",
-        "action": "created",
-        "language": "typescript",
-        "lines_added": 475,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/translate_text/deno.json",
-        "action": "created",
-        "language": "other",
-        "lines_added": 5,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/functions/translate_text/index.ts",
-        "action": "created",
-        "language": "typescript",
-        "lines_added": 209,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/migrations/008_phase2_properties.sql",
-        "action": "created",
-        "language": "sql",
-        "lines_added": 266,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/migrations/010_phase2_crm.sql",
-        "action": "created",
-        "language": "sql",
-        "lines_added": 191,
-        "lines_removed": 0
-      },{
-        "file_path": "supabase/migrations/011_phase2_ai_sales.sql",
-        "action": "created",
-        "language": "sql",
-        "lines_added": 247,
+        "lines_added": 274,
         "lines_removed": 0
       }],
 
