@@ -77,7 +77,15 @@
       "Bash(claude mcp *)",
       "Bash(npx chrome-devtools-mcp@latest --autoConnect --slim)",
       "Bash(pkill -f \"chrome-devtools\")",
-      "Bash(npx --version)"
+      "Bash(npx --version)",
+      "Bash(git push *)",
+      "Bash(timeout 10 npx chrome-devtools-mcp@latest --help)",
+      "Bash(nvm list *)",
+      "Bash(chmod +x /Users/george/workspace/aj-system/.claude/mcp-launcher.sh)",
+      "Bash(/Users/george/workspace/aj-system/.claude/mcp-launcher.sh --help)",
+      "Bash(claude env *)",
+      "Bash(chmod +x /Users/george/.claude/mcp-chrome-devtools.sh)",
+      "Bash(/Users/george/.claude/mcp-chrome-devtools.sh --help)"
     ]
   }
 }

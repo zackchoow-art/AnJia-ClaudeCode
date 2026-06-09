@@ -4,6 +4,25 @@
 每个entry记录一次commit的关键信息。
 
 
+## [2026-06-09T01:09:49-07:00] task-auto-1780992590
+
+**Author**: REDP System  
+**Commit**: `c183aab9`  
+**Message**: feat(phase3-T01): implement project management module enhancement
+
+- Add database migration for project table expansion (planning scheme, timeline events, cost budgets)
+- Create property_units table for detailed property inventory
+- Implement ProjectForm page with 5 tabs: Basic Info, Timeline, Cost Budget, Sales, Financials
+- Add component library: ProjectBasicInfo, ProjectTimeline, ProjectCostBudget, ProjectSales, ProjectFinancials
+- Extend TypeScript types with PropertyUnit interface
+- Add API methods for Project, CostBudget, and PropertyUnits CRUD operations
+
+This completes the Phase 3 project management module implementation.  
+**Changes**: 1 SQL files, 56 TypeScript files  
+**Details**: [`.logs/detailed/task-auto-1780992590.json`](.logs/detailed/task-auto-1780992590.json)  
+**Review Status**: ⏳ Pending
+
+
 ## [2026-06-07T03:07:03-07:00] task-phase2-summary
 
 **Author**: REDP System  
