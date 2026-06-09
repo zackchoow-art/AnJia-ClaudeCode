@@ -194,7 +194,7 @@ export default function ProjectForm() {
         {activeTab === 'cost' && (
           <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
             <h3 className="text-lg font-bold text-on-surface mb-4">成本预算</h3>
-            <CostBudget initialData={formData} />
+            <CostBudget initialData={formData} projectId="" onChange={handleFormChange} />
           </div>
         )}
 

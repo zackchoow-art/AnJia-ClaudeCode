@@ -1,0 +1,306 @@
+{
+  "task_metadata": {
+    "task_id": "task-auto-1780995199",
+    "agent_id": "git-hook-system",
+    "task_type": "code_change",
+    "status": "committed",
+    "timestamp": "2026-06-09T08:53:20Z"
+  },
+
+  "git_info": {
+    "commit_hash": "e55f90e594662c4a2572af26479809e6ab74c545",
+    "commit_message": "refactor: rename stitch folder to admin_portal\n\n- Renamed root folder from 'stitch' to 'admin_portal'\n- Updated README.md with correct project information\n- Updated 00_PACKAGE_SUMMARY.md with v2.0.0 references\n- Updated INTEGRATION_GUIDE.md to use admin_portal path\n- All source files and routes remain unchanged\n\nThe routing and navigation system (Sidebar, Topbar, App.tsx)\ncontinues to work without modification.\n",
+    "author": "REDP System",
+    "commit_date": "2026-06-09T01:53:19-07:00"
+  },
+
+  "change_summary": {
+    "total_files_changed": 46,
+    "sql_files_changed": 0,
+    "typescript_files_changed": 23
+  },
+
+  "database_migrations": [],
+
+  "code_changes": [{
+        "file_path": ".logs/CHANGELOG.md",
+        "action": "modified",
+        "language": "markdown",
+        "lines_added": 15,
+        "lines_removed": 0
+      },{
+        "file_path": ".logs/detailed/task-auto-1780994818.json",
+        "action": "created",
+        "language": "other",
+        "lines_added": 342,
+        "lines_removed": 0
+      },{
+        "file_path": "00_PACKAGE_SUMMARY.md",
+        "action": "modified",
+        "language": "markdown",
+        "lines_added": 73,
+        "lines_removed": 109
+      },{
+        "file_path": "admin_portal/.env.example",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 14,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/.gitignore",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 8,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/INTEGRATION_GUIDE.md",
+        "action": "modified",
+        "language": "markdown",
+        "lines_added": 176,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/README.md",
+        "action": "created",
+        "language": "markdown",
+        "lines_added": 75,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/index.html",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 22,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/metadata.json",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 6,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/package-lock.json",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 4436,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/package.json",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 37,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/App.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 93,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/components/Sidebar.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 96,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/components/Topbar.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 29,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/components/project/ProjectBasicInfo.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 116,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/components/project/ProjectCostBudget.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 224,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/components/project/ProjectFinancials.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 175,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/components/project/ProjectSales.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 211,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/components/project/ProjectTimeline.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 167,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/index.css",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 86,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/main.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 10,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Approvals.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 334,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Contracts.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 315,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Contracts.tsx.bak2",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 315,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Dashboard.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 289,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Engineering.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 186,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Engineering.tsx.bak2",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 186,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Engineering.tsx.bak3",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 186,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Engineering.tsx.bak4",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 186,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Engineering.tsx.bak5",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 186,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Engineering.tsx.bak6",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 186,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Engineering.tsx.bak7",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 186,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Engineering.tsx.bak8",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 186,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Finance.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 330,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Organization.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 319,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Organization.tsx.bak2",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 319,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/ProjectForm.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 222,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Projects.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 271,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Sales.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 392,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/pages/Settings.tsx",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 217,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/services/api.ts",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 656,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/services/supabaseClient.ts",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 246,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/src/types/database.ts",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 422,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/tsconfig.json",
+        "action": "modified",
+        "language": "other",
+        "lines_added": 29,
+        "lines_removed": 0
+      },{
+        "file_path": "admin_portal/vite.config.ts",
+        "action": "modified",
+        "language": "typescript",
+        "lines_added": 22,
+        "lines_removed": 0
+      },{
+        "file_path": "stitch/README.md",
+        "action": "deleted",
+        "language": "markdown",
+        "lines_added": 0,
+        "lines_removed": 0
+      }],
+
+  "approval_log": [],
+
+  "review_status": "pending"
+}

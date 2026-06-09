@@ -18,6 +18,12 @@ import {
   PropertyRecommendation,
   CustomerFollowup,
   CustomerScore,
+  PlanningDocument,
+  DesignDocument,
+  CustomTimelineEvent,
+  CostCategory,
+  TaxType,
+  ExpenseItem,
 } from '../types/database';
 
 // Database URL and anonymous key should be in environment variables
@@ -45,6 +51,12 @@ export const supabase: SupabaseClient<{
   property_recommendations: PropertyRecommendation;
   customer_followups: CustomerFollowup;
   customer_scores: CustomerScore;
+  planning_documents: PlanningDocument;
+  design_documents: DesignDocument;
+  custom_timeline_events: CustomTimelineEvent;
+  cost_categories: CostCategory;
+  tax_types: TaxType;
+  expense_items: ExpenseItem;
 }> = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /**
@@ -244,3 +256,11 @@ export const propertyReservationsService = new CrudService<PropertyReservation>(
 export const propertyRecommendationsService = new CrudService<PropertyRecommendation>('property_recommendations');
 export const customerFollowupsService = new CrudService<CustomerFollowup>('customer_followups');
 export const customerScoresService = new CrudService<CustomerScore>('customer_scores');
+
+// Phase 3 Advanced services
+export const planningDocumentsService = new CrudService<PlanningDocument>('planning_documents');
+export const designDocumentsService = new CrudService<DesignDocument>('design_documents');
+export const customTimelineEventsService = new CrudService<CustomTimelineEvent>('custom_timeline_events');
+export const costCategoriesService = new CrudService<CostCategory>('cost_categories');
+export const taxTypesService = new CrudService<TaxType>('tax_types');
+export const expenseItemsService = new CrudService<ExpenseItem>('expense_items');

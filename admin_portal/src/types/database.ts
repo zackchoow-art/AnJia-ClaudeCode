@@ -16,8 +16,8 @@ export interface Project {
   tax_planning_completed_at: string | null;
 
   // Phase 3 新增字段 - 基础信息
-  planning_scheme: string | null;        // 规划方案
-  design_scheme: string | null;          // 设计方案
+  planning_scheme: string | null;        // 规划方案（文本）
+  design_scheme: string | null;          // 设计方案（文本）
   estimated_sales: number | null;        // 预估销售总额
 
   // Phase 3 新增字段 - 时间节点
@@ -36,6 +36,9 @@ export interface Project {
   // Phase 3 新增字段 - 税金和指标 (JSONB)
   tax_estimates: Record<string, number> | null;    // 各税种明细 {vAT: 100000, income_tax: 50000}
   planning_metrics: Record<string, unknown> | null; // 各类规划指标 {green_rate: 30, plot_ratio: 2.5}
+
+  // Phase 3 Advanced - 备注
+  remarks: string | null;
 
   created_by: string;
   created_at: string;
@@ -419,4 +422,81 @@ export interface PropertyUnitStatusHistory {
   changed_by: string;
   changed_at: string;
   reason: string | null;
+}
+
+// ============================================================================
+// Phase 3 Advanced: Project Documents and Custom Configurations
+// ============================================================================
+
+export interface PlanningDocument {
+  id: string;
+  project_id: string;
+  file_name: string;
+  file_url: string;
+  file_size: number | null;
+  mime_type: string | null;
+  uploaded_by: string | null;
+  created_at: string;
+  updated_at: string | null;
+}
+
+export interface DesignDocument {
+  id: string;
+  project_id: string;
+  file_name: string;
+  file_url: string;
+  file_size: number | null;
+  mime_type: string | null;
+  uploaded_by: string | null;
+  created_at: string;
+  updated_at: string | null;
+}
+
+export interface CustomTimelineEvent {
+  id: string;
+  project_id: string;
+  name_zh: string;
+  name_en: string;
+  event_date: string;
+  sort_order: number;
+  remark: string | null;
+  created_at: string;
+  updated_at: string | null;
+}
+
+export interface CostCategory {
+  id: string;
+  project_id: string | null;
+  parent_id: string | null;
+  code: string;
+  name_zh: string;
+  name_en: string;
+  is_system: boolean;
+  remark: string | null;
+  sort_order: number;
+  created_at: string;
+  updated_at: string | null;
+}
+
+export interface TaxType {
+  id: string;
+  project_id: string | null;
+  name_zh: string;
+  name_en: string;
+  rate: number | null;
+  amount: number;
+  remark: string | null;
+  created_at: string;
+  updated_at: string | null;
+}
+
+export interface ExpenseItem {
+  id: string;
+  project_id: string | null;
+  name_zh: string;
+  name_en: string;
+  amount: number;
+  remark: string | null;
+  created_at: string;
+  updated_at: string | null;
 }

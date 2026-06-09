@@ -4,6 +4,25 @@
 每个entry记录一次commit的关键信息。
 
 
+## [2026-06-09T01:53:19-07:00] task-auto-1780995199
+
+**Author**: REDP System  
+**Commit**: `e55f90e5`  
+**Message**: refactor: rename stitch folder to admin_portal
+
+- Renamed root folder from 'stitch' to 'admin_portal'
+- Updated README.md with correct project information
+- Updated 00_PACKAGE_SUMMARY.md with v2.0.0 references
+- Updated INTEGRATION_GUIDE.md to use admin_portal path
+- All source files and routes remain unchanged
+
+The routing and navigation system (Sidebar, Topbar, App.tsx)
+continues to work without modification.  
+**Changes**: 0 SQL files, 23 TypeScript files  
+**Details**: [`.logs/detailed/task-auto-1780995199.json`](.logs/detailed/task-auto-1780995199.json)  
+**Review Status**: ⏳ Pending
+
+
 ## [2026-06-09T01:46:57-07:00] task-auto-1780994818
 
 **Author**: REDP System  
